@@ -12,11 +12,21 @@
       </thead>
       <tbody>
         <!-- row 2 -->
-        <tr class="hover:bg-base-300">
-          <th>2</th>
-          <td>Hart Hagerty</td>
-          <td>Desktop Support Technician</td>
-          <td>Purple</td>
+        <tr
+          v-for="(project, index) in projectsStore.projectsWithCompletion"
+          :key="project.id"
+          class="hover:bg-base-300"
+        >
+          <th>{{ index + 1 }}</th>
+          <td>{{ project.name }}</td>
+          <td>{{ project.taskCount }}</td>
+          <td>
+            <progress
+              class="progress progress-primary w-56"
+              :value="project.completion"
+              max="100"
+            ></progress>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -25,7 +35,7 @@
   <!-- sub-title hace referencia a prop "subTitle" de InputModal (input-modal) -->
   <input-modal
     @close="modalOpen = false"
-    @value="onNewValue"
+    @value="projectsStore.addProject"
     :open="modalOpen"
     placeholder="Ingrese el nombre del proyecto"
     title="Nuevo proyecto"
@@ -69,11 +79,12 @@ import FabButton from '@/modules/common/FabButton.vue';
 import AddCircle from '@/modules/common/icons/AddCircle.vue';
 import ModalIcon from '@/modules/common/icons/ModalIcon.vue';
 import { ref } from 'vue';
+import { useProjectsStore } from '../store/projects.store';
 
 const modalOpen = ref(false);
 const customModalOpen = ref(false);
 
-const onNewValue = (projectName: string) => {
-  console.log({ projectName });
-};
+const projectsStore = useProjectsStore();
+
+// NOTA: En input-modal, tambien funciona poner @value="onNewValue($event)". Hace lo mismo que @value="onNewValue".
 </script>

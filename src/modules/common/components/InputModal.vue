@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 interface Props {
   open: boolean;
@@ -43,7 +43,7 @@ interface Props {
   subTitle?: string;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emits = defineEmits<{
   close: [void];
@@ -52,6 +52,13 @@ const emits = defineEmits<{
 
 const inputValue = ref('');
 const inputRef = ref<HTMLInputElement | null>(null);
+
+watch(props, (newProps) => {
+  // Estaremos pendientes de las props. newProps son las propiedades actualizadas o actuales.
+  if (newProps.open) {
+    inputRef.value?.focus(); // si el inputRef es null (que ocurre en algun punto determinado del tiempo, es decir, cuando el componente InputModal aun no se monta), no se ejecuta focus(). Esto es gracias a "?".
+  }
+});
 
 const submitValue = () => {
   // console.log({ value: inputValue.value });
