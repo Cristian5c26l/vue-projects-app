@@ -30,7 +30,7 @@
               <td>{{ task.completedAt ?? '-' }}</td>
             </tr>
 
-            <tr class="hover:bg-base-300">
+            <tr>
               <th></th>
               <td colspan="2">
                 <input
